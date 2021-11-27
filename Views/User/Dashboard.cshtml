@@ -1,0 +1,72 @@
+﻿@using ProjectMovie.Models
+@model UserIntelModel
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin: auto; width: 600px !important; height: 350px !important;">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/Content/SliderPosters/defMov_1.jpg" class="d-block w-100" alt="..." />
+        </div>
+        <div class="carousel-item">
+            <img src="/Content/SliderPosters/defMov_2.jpg" class="d-block w-100" alt="..." />
+        </div>
+        <div class="carousel-item">
+            <img src="/Content/SliderPosters/defMov_3.jpg" class="d-block w-100" alt="..." />
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<br />
+<br />
+<br />
+<div class="row">
+
+    @foreach (var movie in Model.Movies)
+    {
+
+        <div class="col-md-3">
+
+            <div class="card" style="width: 18rem;">
+                <img src="/Content/MoviePosters/@movie.Poster" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@movie.Name</h5>
+                    @if (movie.Categories != null)
+                    {
+                        foreach (var category in movie.Categories)
+                        {
+                            <p class="card-text">This movie in the <b>@category.Name</b> category.</p>
+                        }
+
+                    }
+                    else
+                    {
+                        <p class="card-text">
+                            This movie has no category yet.
+
+                            @Html.ActionLink("Add Category", "AddNewCategory", "User", new { MovieName = movie.Name, Username = Model.User.Username }, null)
+                        </p>
+                    }
+
+
+                    <a href="https://en.wikipedia.org/wiki/Fight_Club" class="btn btn-primary">Details</a>
+                    @Html.ActionLink("s", "DeleteMovie", "User", new { MovieName = movie.Name, Username = Model.User.Username }, new { @class = "btn-close", style = "float: right;" })
+                    @*<button type="button" class="btn-close" aria-label="Close" style="float: right"></button>*@
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
